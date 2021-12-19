@@ -14,6 +14,11 @@
 		CE1094BA276F05DD00C201E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE1094B9276F05DD00C201E5 /* Assets.xcassets */; };
 		CE1094BD276F05DD00C201E5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE1094BB276F05DD00C201E5 /* LaunchScreen.storyboard */; };
 		CE1094C8276F05DD00C201E5 /* MultipleServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1094C7276F05DD00C201E5 /* MultipleServiceTests.swift */; };
+		CEDA2559276F1B5500452221 /* ServiceA.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDA2558276F1B5500452221 /* ServiceA.swift */; };
+		CEDA255B276F1B6000452221 /* ServiceB.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDA255A276F1B6000452221 /* ServiceB.swift */; };
+		CEDA255D276F1B6700452221 /* ServiceC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDA255C276F1B6700452221 /* ServiceC.swift */; };
+		CEDA255F276F1B6E00452221 /* MainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDA255E276F1B6E00452221 /* MainService.swift */; };
+		CEDA2561276F1B9D00452221 /* MainLoadAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDA2560276F1B9D00452221 /* MainLoadAdapter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +42,11 @@
 		CE1094BE276F05DD00C201E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE1094C3276F05DD00C201E5 /* MultipleServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultipleServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE1094C7276F05DD00C201E5 /* MultipleServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleServiceTests.swift; sourceTree = "<group>"; };
+		CEDA2558276F1B5500452221 /* ServiceA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceA.swift; sourceTree = "<group>"; };
+		CEDA255A276F1B6000452221 /* ServiceB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceB.swift; sourceTree = "<group>"; };
+		CEDA255C276F1B6700452221 /* ServiceC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceC.swift; sourceTree = "<group>"; };
+		CEDA255E276F1B6E00452221 /* MainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainService.swift; sourceTree = "<group>"; };
+		CEDA2560276F1B9D00452221 /* MainLoadAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainLoadAdapter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +88,7 @@
 		CE1094AF276F05D900C201E5 /* MultipleService */ = {
 			isa = PBXGroup;
 			children = (
+				CEDA2562276F1BEC00452221 /* Service */,
 				CE1094B0276F05D900C201E5 /* AppDelegate.swift */,
 				CE1094B2276F05D900C201E5 /* SceneDelegate.swift */,
 				CE1094B4276F05D900C201E5 /* ViewController.swift */,
@@ -95,6 +106,18 @@
 				CE1094C7276F05DD00C201E5 /* MultipleServiceTests.swift */,
 			);
 			path = MultipleServiceTests;
+			sourceTree = "<group>";
+		};
+		CEDA2562276F1BEC00452221 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				CEDA2558276F1B5500452221 /* ServiceA.swift */,
+				CEDA255A276F1B6000452221 /* ServiceB.swift */,
+				CEDA255C276F1B6700452221 /* ServiceC.swift */,
+				CEDA255E276F1B6E00452221 /* MainService.swift */,
+				CEDA2560276F1B9D00452221 /* MainLoadAdapter.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,9 +221,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEDA255F276F1B6E00452221 /* MainService.swift in Sources */,
+				CEDA255B276F1B6000452221 /* ServiceB.swift in Sources */,
+				CEDA255D276F1B6700452221 /* ServiceC.swift in Sources */,
 				CE1094B5276F05D900C201E5 /* ViewController.swift in Sources */,
 				CE1094B1276F05D900C201E5 /* AppDelegate.swift in Sources */,
 				CE1094B3276F05D900C201E5 /* SceneDelegate.swift in Sources */,
+				CEDA2561276F1B9D00452221 /* MainLoadAdapter.swift in Sources */,
+				CEDA2559276F1B5500452221 /* ServiceA.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
