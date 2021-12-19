@@ -2,6 +2,7 @@
 This is an example how to collect data from multiple services. It is implemented using TDD, Adapter design pattern.
 
 `MainService` is a protocol to abstract implementation detail. So the UI Layer doesn't know how the data come from.
+
 `MainServiceAdapter` is a implementation of `MainService` that interact with other services to load, synchronise, combine and deliver data. The implementation is covered by Unit test.
 
 ## Diagram
