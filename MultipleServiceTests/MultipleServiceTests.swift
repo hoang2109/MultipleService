@@ -52,7 +52,17 @@ class MainLoadAdapter: MainService {
     }
     
     func load(completion: (MainService.Result) -> Void) {
-        
+        serviceA.loadServiceA { resultA in
+            serviceB.loadServiceB { resultB in
+                serviceC.loadServiceC { resultC in
+                    let dataA = try! resultA.get()
+                    let dataB = try! resultB.get()
+                    let dataC = try! resultC.get()
+                    
+                    completion(.success(MainData(dataA: dataA, dataB: dataB, dataC: dataC)))
+                }
+            }
+        }
     }
 }
 
@@ -63,6 +73,27 @@ class MultipleServiceTests: XCTestCase {
         let loader = LoaderStub()
         let sut = MainLoadAdapter(serviceA: loader, serviceB: loader, serviceC: loader)
         XCTAssertNotNil(sut)
+    }
+    
+    func test_load_deliversSuccessMainDataOnAllServicesSuccess() {
+        let loader = LoaderStub()
+        let expected = MainData(dataA: "Data A", dataB: "Data B", dataC: "Data C")
+        loader.resultAStub = .success(expected.dataA)
+        loader.resultBStub = .success(expected.dataB)
+        loader.resultCStub = .success(expected.dataC)
+        
+        let sut = MainLoadAdapter(serviceA: loader, serviceB: loader, serviceC: loader)
+        
+        let exp = expectation(description: "Waiting for completion")
+        var captureResult: MainService.Result?
+        sut.load { result in
+            captureResult = result
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 0.1)
+        
+        XCTAssertEqual(try captureResult?.get(), expected)
     }
     
     // MARK: - Helpers
