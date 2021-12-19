@@ -12,19 +12,19 @@ import XCTest
 protocol ServiceA {
     typealias Result = Swift.Result<String, Error>
     
-    func loadServiceA(completion: (Result) -> Void)
+    func loadServiceA(completion: @escaping (Result) -> Void)
 }
 
 protocol ServiceB {
     typealias Result = Swift.Result<String, Error>
     
-    func loadServiceB(completion: (Result) -> Void)
+    func loadServiceB(completion: @escaping (Result) -> Void)
 }
 
 protocol ServiceC {
     typealias Result = Swift.Result<String, Error>
     
-    func loadServiceC(completion: (Result) -> Void)
+    func loadServiceC(completion: @escaping (Result) -> Void)
 }
 
 struct MainData: Equatable {
@@ -36,7 +36,7 @@ struct MainData: Equatable {
 protocol MainService {
     typealias Result = Swift.Result<MainData, Error>
     
-    func load(completion: (Result) -> Void)
+    func load(completion: @escaping (Result) -> Void)
 }
 
 class MainLoadAdapter: MainService {
@@ -51,25 +51,68 @@ class MainLoadAdapter: MainService {
         self.serviceC = serviceC
     }
     
-    func load(completion: (MainService.Result) -> Void) {
-        serviceA.loadServiceA { resultA in
-            if case let .failure(error) = resultA {
-                return completion(.failure(error))
+    private struct PartialData {
+        var dataA: String? {
+            didSet {
+                checkCompletion()
             }
-            serviceB.loadServiceB { resultB in
-                if case let .failure(error) = resultB {
-                    return completion(.failure(error))
-                }
-                serviceC.loadServiceC { resultC in
-                    if case let .failure(error) = resultC {
-                        return completion(.failure(error))
-                    }
-                    let dataA = try! resultA.get()
-                    let dataB = try! resultB.get()
-                    let dataC = try! resultC.get()
-                    
-                    completion(.success(MainData(dataA: dataA, dataB: dataB, dataC: dataC)))
-                }
+        }
+        var dataB: String? {
+            didSet {
+                checkCompletion()
+            }
+        }
+        var dataC: String? {
+            didSet {
+                checkCompletion()
+            }
+        }
+        var error: Error? {
+            didSet {
+                checkCompletion()
+            }
+        }
+        
+        var completion: ((MainService.Result) -> Void)?
+        
+        mutating func checkCompletion() {
+            if let error = error {
+                completion?(.failure(error))
+                completion = nil
+            } else if let dataA = dataA, let dataB = dataB, let dataC = dataC {
+                completion?(.success(MainData(dataA: dataA, dataB: dataB, dataC: dataC)))
+                completion = nil
+            }
+        }
+    }
+    
+    func load(completion: @escaping (MainService.Result) -> Void) {
+        var partialData = PartialData(completion: completion)
+        
+        serviceA.loadServiceA { result in
+            switch result {
+            case .success(let data):
+                partialData.dataA = data
+            case .failure(let error):
+                partialData.error = error
+            }
+        }
+        
+        serviceB.loadServiceB { result in
+            switch result {
+            case .success(let data):
+                partialData.dataB = data
+            case .failure(let error):
+                partialData.error = error
+            }
+        }
+        
+        serviceC.loadServiceC { result in
+            switch result {
+            case .success(let data):
+                partialData.dataC = data
+            case .failure(let error):
+                partialData.error = error
             }
         }
     }
@@ -170,17 +213,17 @@ class MultipleServiceTests: XCTestCase {
 
     class LoaderStub: ServiceA, ServiceB, ServiceC {
         var resultAStub: ServiceA.Result = .success("")
-        func loadServiceA(completion: (ServiceA.Result) -> Void) {
+        func loadServiceA(completion: @escaping (ServiceA.Result) -> Void) {
             completion(resultAStub)
         }
         
         var resultBStub: ServiceA.Result = .success("")
-        func loadServiceB(completion: (ServiceB.Result) -> Void) {
+        func loadServiceB(completion: @escaping (ServiceB.Result) -> Void) {
             completion(resultBStub)
         }
         
         var resultCStub: ServiceA.Result = .success("")
-        func loadServiceC(completion: (ServiceC.Result) -> Void) {
+        func loadServiceC(completion: @escaping (ServiceC.Result) -> Void) {
             completion(resultCStub)
         }
     }
