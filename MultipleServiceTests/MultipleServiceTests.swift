@@ -61,6 +61,9 @@ class MainLoadAdapter: MainService {
                     return completion(.failure(error))
                 }
                 serviceC.loadServiceC { resultC in
+                    if case let .failure(error) = resultC {
+                        return completion(.failure(error))
+                    }
                     let dataA = try! resultA.get()
                     let dataB = try! resultB.get()
                     let dataC = try! resultC.get()
@@ -124,6 +127,25 @@ class MultipleServiceTests: XCTestCase {
         
         let expected = anyError()
         loader.resultBStub = .failure(anyError())
+        
+        let exp = expectation(description: "Waiting for completion")
+        var captureResult: MainService.Result?
+        sut.load { result in
+            captureResult = result
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 0.1)
+        
+        XCTAssertEqual(captureResult?.error as NSError?, expected)
+    }
+    
+    func test_load_deliversErrorOnServiceCLoadFailed() {
+        
+        let (sut, loader) = makeSUT()
+        
+        let expected = anyError()
+        loader.resultCStub = .failure(anyError())
         
         let exp = expectation(description: "Waiting for completion")
         var captureResult: MainService.Result?
