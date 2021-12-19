@@ -45,6 +45,8 @@ class MainLoadAdapter: MainService {
     private let serviceB: ServiceB
     private let serviceC: ServiceC
     
+    private let queue = DispatchQueue(label: "MainLoadAdapter.Queue")
+    
     init(serviceA: ServiceA, serviceB: ServiceB, serviceC: ServiceC) {
         self.serviceA = serviceA
         self.serviceB = serviceB
@@ -89,30 +91,36 @@ class MainLoadAdapter: MainService {
     func load(completion: @escaping (MainService.Result) -> Void) {
         var partialData = PartialData(completion: completion)
         
-        serviceA.loadServiceA { result in
-            switch result {
-            case .success(let data):
-                partialData.dataA = data
-            case .failure(let error):
-                partialData.error = error
+        serviceA.loadServiceA { [weak self] result in
+            self?.queue.async {
+                switch result {
+                case .success(let data):
+                    partialData.dataA = data
+                case .failure(let error):
+                    partialData.error = error
+                }
             }
         }
         
-        serviceB.loadServiceB { result in
-            switch result {
-            case .success(let data):
-                partialData.dataB = data
-            case .failure(let error):
-                partialData.error = error
+        serviceB.loadServiceB { [weak self] result in
+            self?.queue.async {
+                switch result {
+                case .success(let data):
+                    partialData.dataB = data
+                case .failure(let error):
+                    partialData.error = error
+                }
             }
         }
         
-        serviceC.loadServiceC { result in
-            switch result {
-            case .success(let data):
-                partialData.dataC = data
-            case .failure(let error):
-                partialData.error = error
+        serviceC.loadServiceC { [weak self] result in
+            self?.queue.async {
+                switch result {
+                case .success(let data):
+                    partialData.dataC = data
+                case .failure(let error):
+                    partialData.error = error
+                }
             }
         }
     }
@@ -214,17 +222,23 @@ class MultipleServiceTests: XCTestCase {
     class LoaderStub: ServiceA, ServiceB, ServiceC {
         var resultAStub: ServiceA.Result = .success("")
         func loadServiceA(completion: @escaping (ServiceA.Result) -> Void) {
-            completion(resultAStub)
+            DispatchQueue.global().async {
+                completion(self.resultAStub)
+            }
         }
         
         var resultBStub: ServiceA.Result = .success("")
         func loadServiceB(completion: @escaping (ServiceB.Result) -> Void) {
-            completion(resultBStub)
+            DispatchQueue.global().async {
+                completion(self.resultBStub)
+            }
         }
         
         var resultCStub: ServiceA.Result = .success("")
         func loadServiceC(completion: @escaping (ServiceC.Result) -> Void) {
-            completion(resultCStub)
+            DispatchQueue.global().async {
+                completion(self.resultCStub)
+            }
         }
     }
     
