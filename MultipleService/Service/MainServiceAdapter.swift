@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MainLoadAdapter: MainService {
+class MainServiceAdapter: MainService {
     
     private let serviceA: ServiceA
     private let serviceB: ServiceB

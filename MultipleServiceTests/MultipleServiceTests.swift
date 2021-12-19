@@ -93,9 +93,9 @@ class MultipleServiceTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeSUT() -> (sut: MainLoadAdapter, loader: LoaderStub) {
+    private func makeSUT() -> (sut: MainServiceAdapter, loader: LoaderStub) {
         let loader = LoaderStub()
-        let sut = MainLoadAdapter(serviceA: loader, serviceB: loader, serviceC: loader)
+        let sut = MainServiceAdapter(serviceA: loader, serviceB: loader, serviceC: loader)
         
         return (sut, loader)
     }

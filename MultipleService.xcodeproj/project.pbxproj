@@ -18,7 +18,7 @@
 		CEDA255B276F1B6000452221 /* ServiceB.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDA255A276F1B6000452221 /* ServiceB.swift */; };
 		CEDA255D276F1B6700452221 /* ServiceC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDA255C276F1B6700452221 /* ServiceC.swift */; };
 		CEDA255F276F1B6E00452221 /* MainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDA255E276F1B6E00452221 /* MainService.swift */; };
-		CEDA2561276F1B9D00452221 /* MainLoadAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDA2560276F1B9D00452221 /* MainLoadAdapter.swift */; };
+		CEDA2561276F1B9D00452221 /* MainServiceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDA2560276F1B9D00452221 /* MainServiceAdapter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +46,7 @@
 		CEDA255A276F1B6000452221 /* ServiceB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceB.swift; sourceTree = "<group>"; };
 		CEDA255C276F1B6700452221 /* ServiceC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceC.swift; sourceTree = "<group>"; };
 		CEDA255E276F1B6E00452221 /* MainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainService.swift; sourceTree = "<group>"; };
-		CEDA2560276F1B9D00452221 /* MainLoadAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainLoadAdapter.swift; sourceTree = "<group>"; };
+		CEDA2560276F1B9D00452221 /* MainServiceAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainServiceAdapter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,7 +115,7 @@
 				CEDA255A276F1B6000452221 /* ServiceB.swift */,
 				CEDA255C276F1B6700452221 /* ServiceC.swift */,
 				CEDA255E276F1B6E00452221 /* MainService.swift */,
-				CEDA2560276F1B9D00452221 /* MainLoadAdapter.swift */,
+				CEDA2560276F1B9D00452221 /* MainServiceAdapter.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -227,7 +227,7 @@
 				CE1094B5276F05D900C201E5 /* ViewController.swift in Sources */,
 				CE1094B1276F05D900C201E5 /* AppDelegate.swift in Sources */,
 				CE1094B3276F05D900C201E5 /* SceneDelegate.swift in Sources */,
-				CEDA2561276F1B9D00452221 /* MainLoadAdapter.swift in Sources */,
+				CEDA2561276F1B9D00452221 /* MainServiceAdapter.swift in Sources */,
 				CEDA2559276F1B5500452221 /* ServiceA.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
