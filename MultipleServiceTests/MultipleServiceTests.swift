@@ -76,19 +76,17 @@ class MainLoadAdapter: MainService {
 class MultipleServiceTests: XCTestCase {
 
     func test_canInit() {
-        let loader = LoaderStub()
-        let sut = MainLoadAdapter(serviceA: loader, serviceB: loader, serviceC: loader)
+        let (sut, _) = makeSUT()
         XCTAssertNotNil(sut)
     }
     
     func test_load_deliversSuccessMainDataOnAllServicesSuccess() {
-        let loader = LoaderStub()
+        let (sut, loader) = makeSUT()
+        
         let expected = MainData(dataA: "Data A", dataB: "Data B", dataC: "Data C")
         loader.resultAStub = .success(expected.dataA)
         loader.resultBStub = .success(expected.dataB)
         loader.resultCStub = .success(expected.dataC)
-        
-        let sut = MainLoadAdapter(serviceA: loader, serviceB: loader, serviceC: loader)
         
         let exp = expectation(description: "Waiting for completion")
         var captureResult: MainService.Result?
@@ -103,11 +101,10 @@ class MultipleServiceTests: XCTestCase {
     }
     
     func test_load_deliversErrorOnServiceALoadFailed() {
-        let loader = LoaderStub()
-        let expected = anyError()
+        let (sut, loader) = makeSUT()
         
+        let expected = anyError()
         loader.resultAStub = .failure(anyError())
-        let sut = MainLoadAdapter(serviceA: loader, serviceB: loader, serviceC: loader)
         
         let exp = expectation(description: "Waiting for completion")
         var captureResult: MainService.Result?
@@ -122,11 +119,11 @@ class MultipleServiceTests: XCTestCase {
     }
     
     func test_load_deliversErrorOnServiceBLoadFailed() {
-        let loader = LoaderStub()
-        let expected = anyError()
         
+        let (sut, loader) = makeSUT()
+        
+        let expected = anyError()
         loader.resultBStub = .failure(anyError())
-        let sut = MainLoadAdapter(serviceA: loader, serviceB: loader, serviceC: loader)
         
         let exp = expectation(description: "Waiting for completion")
         var captureResult: MainService.Result?
@@ -141,6 +138,13 @@ class MultipleServiceTests: XCTestCase {
     }
     
     // MARK: - Helpers
+    
+    private func makeSUT() -> (sut: MainLoadAdapter, loader: LoaderStub) {
+        let loader = LoaderStub()
+        let sut = MainLoadAdapter(serviceA: loader, serviceB: loader, serviceC: loader)
+        
+        return (sut, loader)
+    }
 
     class LoaderStub: ServiceA, ServiceB, ServiceC {
         var resultAStub: ServiceA.Result = .success("")
